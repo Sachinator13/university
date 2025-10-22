@@ -1,0 +1,40 @@
+
+last_member([X | Xs] ,Last) :-
+    last(Xs, X, Last).
+
+last([], Last, Last).
+last([X | Xs], _, Last) :-
+    last(Xs, X, Last).
+
+
+---------------------------
+
+
+?- last_member([1,b,c,d], Last)
+
+Last = d
+
+
+
+How it works: feeds in a list and a variable
+
+splits the list into [X | Xs]  where Xs is another list and X
+ is the first in the list.
+
+ Next, it feeds the list (Xs), the first in the list (x) and Last 
+ into another function last
+
+ inside last, we split the list into X and Xs, where X is the 
+ first element in teh list and Xs is th erest of the list
+
+ we dont care what the X fed in from before was so we list as 
+ anything
+
+ now we recursively call the function again so we keep 
+ splitting the list smaller and samlle runtil the list is
+ made of 1 element. When we call teh funciton like this, the 
+ list will split into  [] and X, and we have a function taht states if
+ the list is empty, Last becomes X.
+
+ then we travel back out through the recursive function and 
+ return last.

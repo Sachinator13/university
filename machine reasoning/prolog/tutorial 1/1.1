@@ -1,0 +1,19 @@
+list([a, b, c, d]).
+
+
+is_member(X, [X | _ ], 0 ) :- !.
+
+is_member(X, [_ | Rest], N) :-
+    is_member(X, Rest, N1),
+    N is N1+1.
+	
+
+first_list(X, [ X | _ ] ).
+
+
+
+
+-------------------------------------------------------------------
+?- first_list(First, [9,a,b,c,d])
+
+First = 9

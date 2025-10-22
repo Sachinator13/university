@@ -1,0 +1,22 @@
+append_list([], L2, L2).
+
+append_list([X|L1],L2,[X|L3]) :-
+    append_list(L1,L2,L3).
+
+
+
+
+------------------------
+?- append_list([a, b, c], [p, q], Ans).
+
+Ans = [a, b, c, p, q]
+
+
+
+
+How it works: the worst case scenario is when L1 is empty, and 
+then it rplaces L3 with L2. We work towards this by slowly 
+reducing the size of list 1. eventually, when we reach 0, 
+L2 will take the palce of L3, and then we work backwards and 
+append the last value of L1 onto teh start of L3 and contine
+backwards until the list is fully appended.

@@ -1,0 +1,80 @@
+father(homer, bart).
+father(homer, lisa).
+father(homer,maggie).
+father(abraham, homer).
+father(clancy, marge).
+father(bart, skippy).
+father(bart,jiff).
+father(milhouse,zia).
+
+mother(marge, bart).
+mother(marge, lisa).
+mother(marge, maggie).
+mother(mona, homer).
+mother(jacqueline, marge).
+mother(jenda, skippy).
+mother(jenda, jiff).
+mother(lisa, zia).
+
+married(homer, marge).
+married(abraham, mona).
+married(clancy, jacqueline).
+married(bart, jenda).
+married(lisa, milhouse).
+
+male(homer).
+male(bart).
+male(abraham).
+male(clancy).
+male(skippy).
+male(jiff).
+male(milhouse).
+
+female(marge).
+female(lisa).
+female(maggie).
+female(mona).
+female(jacqueline).
+female(jenda).
+female(zia).
+
+parent(X, Y):-
+    father(X,Y);mother(X,Y).
+
+man(X):-
+    male(X).
+
+woman(X):-
+    female(X).
+    
+marriage(X,Y):-
+    married(X,Y).
+
+siblings(X,Y):-
+    parent(Z,X),
+    parent(Z,Y),
+    dif(X,Y).
+
+brother(X,Y):-
+    siblings(X,Y),
+    male(Y).
+
+sister(X,Y):-
+    siblings(X,Y),
+    female(Y).
+    
+grandparent(X,Y):-
+    parent(Z,X),
+    parent(Y,Z).
+
+grandmother(X,Y):-
+    grandparent(X,Y),
+    female(Y).
+
+grandfather(X,Y):-
+    grandparent(X,Y),
+    male(Y).
+
+
+
+

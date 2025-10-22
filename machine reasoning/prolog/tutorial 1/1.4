@@ -1,0 +1,23 @@
+
+find_element(X, [X|_]) :- !.
+
+find_element(X, [_ | Rest]) :-
+    find_element(X,Rest).
+
+
+----------------------------
+
+?- find_element(a, [a,b,c,d,e])
+
+true
+
+
+
+
+How it works: we firts set the condition that if X is the same as 
+teh first element in the list, then we cut the recursiveness and 
+route back.
+
+what we do is continuosly check if teh firts condition is true.
+if not, we recursively feed the list without the first element
+and so on until we find one that matches.
