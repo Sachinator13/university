@@ -1,0 +1,62 @@
+start_state( (l,l,l,l) ).
+goal_state( (r,r,r,r) ).
+
+state_change( farmer, (B,W,G,C), (O,W,G,C) ):-
+    opposite(B,O), opposite(W,G), opposite(G,C).
+state_change( wolf, (B,B,G,C), (O,O,G,C)):-
+    opposite(B,O), opposite(G,C).
+state_change( goat, (B,W,B,C), (O,W,O,C)):-
+    opposite(B,O).
+state_change( cabbage, (B,W,G,B), (O,W,G,O) ) :-
+    opposite(B,O), opposite(W,G).
+
+opposite(l,r).
+opposite(r,l).
+
+
+make_node(_Rule, State, node(State)).
+state_of(node(State), State).
+
+
+choose(Path, [Path|OtherPaths], OtherPaths ).
+
+add_to_paths(NewPaths, OtherPaths, AllPaths) :-
+    append( OtherPaths, NewPaths, AllPaths ).
+
+new_state_on_path( _, [] ).
+new_state_on_path( State, [(State,_,_,_)|_] ) :-
+	!, fail.
+new_state_on_path( State, [_|Path] ) :-
+	new_state_on_path( State, Path ).
+
+write_graph( [] ) :-
+	write( '=====' ), nl.
+write_graph( [H|T] ) :-
+	write( H ), nl,
+	write_graph( T ).
+
+
+search(Graph, [Node|Path]):-
+	choose([Node|Path], Graph,_),
+	state_of(Node, State),
+	goal_state(State).
+search(Graph, SolnPath) :-
+	choose(Path, Graph, OtherPaths),
+	one_step_extensions( Path, NewPaths),
+	add_to_paths(NewPaths, OtherPaths, GraphPlus),
+	search(GraphPlus, SolnPath).
+
+one_step_extensions([Node|Path], NewPaths):-
+	state_of(Node, State),
+	findall([NewNode,Node|Path],
+		(state_change(_, State, NewState),
+		 new_state_on_path( NewState, Path ),
+		 make_node(Node, NewState, NewNode)),
+	NewPaths).
+
+
+
+solve(SolPath) :-
+    start_state(S),
+    make_node(start, S, N),
+    search([[N]], SolPath).
